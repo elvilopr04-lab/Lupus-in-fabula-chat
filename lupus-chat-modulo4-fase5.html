@@ -1,0 +1,284 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#19141d"><title>Lupus Chat · Modulo 4</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#f4e8eb;background:#151018}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#39202d,#151018 65%);min-height:100vh}.wrap{max-width:660px;margin:auto;padding:22px 17px 65px}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}.brand{font:700 25px Georgia,serif;color:#f9dfe6}.brand span{color:#e17e93}.tag{border:1px solid #80515e;color:#f0bdc8;border-radius:20px;padding:7px 10px;font-size:11px}h1{font:700 36px Georgia,serif;margin:0 0 12px}h2{font-size:19px;margin:0 0 12px}p{color:#c1aebd;line-height:1.55}.card{border:1px solid #593746;border-radius:19px;padding:22px;background:#261b28;margin:16px 0;box-shadow:0 12px 32px #0003}.btn{background:#ae5066;color:white;border:0;border-radius:12px;padding:13px 16px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}.btn.alt{background:#42303f}.btn.out{background:transparent;border:1px solid #795161}.btn.danger{background:#68303d}.btn:disabled{opacity:.5;cursor:wait}.stack{display:grid;gap:12px}.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.small{font-size:13px;color:#c4b1bf}.muted{color:#a58b9e;font-size:12px}input{width:100%;background:#140f18;border:1px solid #775061;border-radius:11px;padding:13px;color:#fff;font:inherit}label{display:block;font-size:13px;margin:10px 0 7px}.code{font-size:28px;letter-spacing:5px;text-align:center;font-weight:800;padding:17px;border:1px dashed #ab677b;border-radius:13px}.hide{display:none!important}.alert{padding:12px;border-radius:10px;background:#482732;color:#ffd9e2;font-size:13px;margin:12px 0;white-space:pre-wrap}.ok{background:#243b34;color:#c8efdc}.item{border:1px solid #5c3b4b;border-radius:13px;padding:14px;margin:10px 0;background:#30212f}.pill{border-radius:20px;background:#523340;padding:5px 9px;font-size:12px}.back{background:none;color:#e9a8b8;border:0;padding:0 0 17px;cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid #ef9db0;outline-offset:2px}
+.messages{height:min(52vh,450px);min-height:220px;overflow-y:auto;border:1px solid #553544;border-radius:12px;padding:12px;background:#1b1520}.bubble{background:#382734;border-radius:12px;padding:10px 12px;margin:8px 0;max-width:92%;overflow-wrap:anywhere}.bubble.mine{background:#593246;margin-left:auto}.bubble .meta{color:#ddb2c2;font-size:12px;margin-bottom:4px}.bubble .reply{font-size:12px;color:#e5bdca;border-left:2px solid #cc788d;padding-left:7px;margin-bottom:6px}.bubble button{background:none;border:0;color:#eab5c5;padding:3px 0;font-size:12px;cursor:pointer}.memberOption{display:flex;align-items:center;gap:9px;margin:8px 0}.memberOption input{width:auto}.chatTile{width:100%;text-align:left}.unreadBadge{display:inline-block;margin-left:8px;background:#c95c76;color:white;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800}.smallBtn{font-size:12px;padding:8px} 
+/* MODULO 4 · FASE 5: restyling visivo, senza alterare la logica applicativa */
+:root{color-scheme:dark;--ink:#e9dfcc;--gold:#d5ad67;--wine:#a64d58;--border:#665342;--panel:#211d24}
+html{background:#100f16}
+body{color:var(--ink);background:
+radial-gradient(ellipse 90% 34% at 50% -8%,rgba(166,77,88,.26),transparent 80%),
+radial-gradient(ellipse 75% 65% at 100% 60%,rgba(83,61,102,.16),transparent 80%),
+linear-gradient(160deg,#16121b,#0e1018 78%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;z-index:0;
+background-image:repeating-linear-gradient(90deg,transparent 0 75px,rgba(211,172,110,.09) 76px,transparent 77px),
+repeating-linear-gradient(0deg,transparent 0 75px,rgba(211,172,110,.07) 76px,transparent 77px)}
+.wrap{position:relative;z-index:1;max-width:720px;padding:25px 18px max(72px,env(safe-area-inset-bottom))}
+header{padding:11px 2px 20px;margin-bottom:19px;border-bottom:1px solid rgba(213,173,103,.24)}
+.brand{font:700 clamp(25px,6vw,33px) Georgia,serif;letter-spacing:.025em;color:#f5e8d2;text-shadow:0 1px 18px #a64d5833}
+.brand span{color:#dfb875}
+.tag{border-color:#7c6448;background:#342820;color:#e5c58b;font-weight:700;letter-spacing:.09em}
+h1{font:700 clamp(30px,8vw,45px) Georgia,serif;line-height:1.12;letter-spacing:-.02em;color:#f4e7d2;text-wrap:balance}
+h2{font:700 21px Georgia,serif;color:#e8c891;line-height:1.25}
+p{color:#c6b8ad}
+.card{background:linear-gradient(150deg,rgba(46,35,42,.97),rgba(27,26,35,.98));border:1px solid #695044;border-radius:18px;box-shadow:0 14px 38px #0006,inset 0 1px 0 #e7bf7a12}
+.card .card{background:rgba(13,14,22,.36);box-shadow:none;border-color:#58483f}
+.btn{background:linear-gradient(145deg,#a64d58,#783643);border:1px solid #c76c75;color:#fff3e6;box-shadow:0 3px 12px #0003;min-height:44px;transition:filter .18s ease,transform .18s ease}
+.btn:active{transform:scale(.985)}
+.btn:hover{filter:brightness(1.13)}
+.btn.alt{background:linear-gradient(145deg,#544352,#3c3447);border-color:#7b6171}
+.btn.out{background:rgba(17,17,25,.25);border-color:#8b7057;color:#e9cf9e}
+.btn.danger{background:#612d36;border-color:#ab5a60}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #edc681;outline-offset:3px}
+input,textarea{background:#12131c!important;border:1px solid #7c6655!important;color:#f7ead9!important}
+input::placeholder,textarea::placeholder{color:#998c8c}
+label{color:#e6cfac;font-weight:650}
+.code{color:#f1d49a;background:linear-gradient(135deg,#17141e,#30242a);border:1px dashed #b38a59;letter-spacing:clamp(3px,1.5vw,7px);text-shadow:0 0 16px #d5ad6730}
+.item{background:rgba(19,19,29,.55);border-color:#594b47}
+.pill{background:#49382e;border:1px solid #80664c;color:#f3d9a5}
+.small,.muted{color:#b8a89e}
+.back{color:#e8c48a;font-weight:700}
+.alert{background:#4a2830;border:1px solid #89535a;color:#ffe1d5}
+.alert.ok{background:#263a32;border-color:#527e63;color:#d5f2dc}
+.messages{background:linear-gradient(180deg,#17161e,#1b1924);border-color:#6b5446;scrollbar-color:#725a56 #1a1720}
+.bubble{background:#39303c;border:1px solid #5b4752;box-shadow:0 2px 8px #0002}
+.bubble.mine{background:#57323d;border-color:#87505c}
+.bubble .meta{color:#e1bd94}
+.bubble .reply{border-left-color:#d6ab6d;color:#e7c7a5}
+.bubble button{color:#f1c990}
+.unreadBadge{background:#b84c60;border:1px solid #f49a9b}
+#messageForm button{width:100%}
+#chatSection,#masterControls,#playerControls{min-width:0}
+@media(max-width:420px){.wrap{padding-inline:13px}.card{padding:17px}.tag{font-size:9px;padding:7px}.brand{font-size:25px}.row{gap:8px}.smallBtn{min-height:38px}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style></head><body><main class="wrap"><header><div class="brand"><span>☾</span> Lupus Chat</div><span class="tag">MODULO 4 · fase 5</span></header><section id="setup" class="card hide"><h1>Collega Supabase</h1><p>Inserisci URL del progetto e chiave <b>publishable/anon</b>. Mai la chiave secret o service_role.</p><label>Project URL</label><input id="url" placeholder="https://xxxx.supabase.co" autocomplete="off"><label>Publishable / anon key</label><input id="key" placeholder="sb_publishable_..." autocomplete="off"><div class="stack" style="margin-top:18px"><button class="btn" id="connect">Collega</button></div><p class="muted">La configurazione viene salvata in questo browser. Per distribuire la versione definitiva, imposteremo la configurazione nel progetto di build.</p></section><section id="home" class="hide"><h1>Ogni branco ha i suoi segreti.</h1><p>Le conversazioni saranno private. La partita resta dal vivo.</p><div class="card stack"><h2>Entra nella notte</h2><button class="btn" data-view="create">Crea partita</button><button class="btn alt" data-view="join">Entra con codice / Recupera accesso</button><button class="btn out" id="refresh">Aggiorna le mie partite</button></div><div class="card"><h2>Le mie partite</h2><div id="games"></div></div><p class="muted">Modulo 4: stanze e chat private. Nessuna registrazione richiesta.</p></section><section id="create" class="hide"><button class="back" data-view="home">← Indietro</button><div class="card"><h2>Nuova partita</h2><form id="createForm"><label>Nome della partita</label><input name="name" maxlength="45" required placeholder="Notte di luna piena"><label>Nickname del master</label><input name="nick" maxlength="25" required placeholder="Il tuo nickname"><button class="btn" style="margin-top:18px;width:100%">Crea stanza</button></form></div></section><section id="join" class="hide"><button class="back" data-view="home">← Indietro</button><div class="card"><h2>Richiedi ingresso</h2><p>Il master dovrà approvare la tua richiesta. Se hai perso la sessione, usa un nickname provvisorio diverso dal precedente e chiedi al master di usare «Recupera» sul tuo vecchio account.</p><form id="joinForm"><label>Codice partita</label><input name="code" maxlength="6" required placeholder="ABC234" style="text-transform:uppercase"><label>Nickname</label><input name="nick" maxlength="25" required><button class="btn" style="margin-top:18px;width:100%">Invia richiesta</button></form></div></section><section id="detail" class="hide"><button class="back" data-view="home">← Le mie partite</button><div class="card"><div class="row"><h2 id="gameName"></h2><span class="pill" id="role"></span></div><div class="code" id="gameCode"></div><p id="status" class="small"></p><div id="masterControls" class="hide stack"><div id="joinState" class="small" role="status"></div><button class="btn alt" id="toggleJoins"></button><div class="card" style="margin:0"><h2>Partecipanti della partita</h2><p class="small">Per recuperare un account perso: il giocatore invia una nuova richiesta con un nickname provvisorio, poi premi «Recupera» accanto al suo vecchio nickname. Verifica di persona la sua identità prima di autorizzarlo.</p><div id="rosterSummary" class="small"></div><div id="rosterList"></div></div><div class="card stack" style="margin:0"><h2>Invita il branco</h2><p class="small" style="margin:0">Condividi il link o fai scansionare il QR. Il master dovrà comunque approvare ogni ingresso.</p><button class="btn alt" id="shareInvite">Condividi invito</button><button class="btn out" id="copyInvite">Copia link invito</button><button class="btn out" id="copy">Copia solo codice</button><button class="btn out" id="showQr">Mostra codice QR</button><div id="qrPanel" class="hide stack" style="align-items:center"><div id="qrLoading" class="small" role="status"></div><img id="qrImage" alt="Codice QR dell’invito alla partita" style="width:220px;height:220px;max-width:100%;background:white;padding:10px;border-radius:12px" class="hide"><p class="small" style="margin:0;text-align:center">Scansiona per aprire la richiesta d’ingresso</p></div></div><button class="btn out" id="reloadPending">Aggiorna richieste</button><h2>Richieste in attesa</h2><div id="pending"></div><button class="btn danger" id="delete">Termina ed elimina partita</button></div><div id="chatSection" class="card hide"><div class="row"><h2>Chat private</h2><button class="btn alt hide" id="newChat">+ Nuova chat</button></div><div id="chatList" class="stack"></div></div><div id="playerControls" class="hide stack"><div class="alert ok" id="waiting">Il master sta preparando la partita. Le tue chat appariranno qui nei prossimi moduli.</div><button class="btn out" id="leave">Abbandona partita</button></div></div></section><section id="chatView" class="hide"><button class="back" id="backToGame">← Torna alla partita</button><div class="card stack"><div class="row"><h2 id="chatTitle"></h2><button class="btn out hide" id="manageChat">Gestisci</button></div><div id="chatMemberNames" class="small"></div><div id="messages" class="messages" aria-live="polite"></div><div id="replyBox" class="hide small"></div><form id="messageForm" class="stack"><textarea id="messageText" required maxlength="2000" rows="3" placeholder="Scrivi un messaggio..." style="width:100%;background:#140f18;color:#fff;border:1px solid #775061;border-radius:11px;padding:13px;font:inherit;resize:vertical"></textarea><button class="btn">Invia</button></form></div></section><div id="message" role="status" aria-live="polite"></div><p class="muted" style="text-align:center;margin-top:28px">Lupus Chat · Modulo 4 · Recupero accesso</p></main><script type="module">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+const $=id=>document.getElementById(id),views=['setup','home','create','join','detail','chatView'];let sb=null,user=null,games=[],current=null,poll=null,activeChat=null,chatRows=[],replyTo=null,chatLast=0,seenMessages=new Map();
+function view(v){views.forEach(id=>$(id).classList.toggle('hide',id!==v));clearInterval(poll);poll=null;window.scrollTo(0,0)}
+function notice(t,ok=false){$('message').className='alert'+(ok?' ok':'');$('message').textContent=t;setTimeout(()=>{if($('message').textContent===t)$('message').textContent=''},6500)}
+function err(e){notice(e?.message||String(e))}
+async function rpc(name,args={}){const {data,error}=await sb.rpc(name,args);if(error)throw error;return data}
+async function load(){games=await rpc('get_my_games');const el=$('games');el.replaceChildren();if(!games.length){el.textContent='Non hai ancora partite attive.';return}for(const g of games){const d=document.createElement('div');d.className='item';const title=document.createElement('strong');title.textContent=g.name;const sub=document.createElement('p');sub.className='small';sub.textContent=g.my_status==='pending'?'Richiesta in attesa':(g.master_id===user.id?'Master':'Giocatore')+' · '+g.code;const b=document.createElement('button');b.className='btn alt';b.textContent='Apri';b.onclick=()=>open(g.id);d.append(title,sub,b);el.append(d)}}
+async function open(id){
+ view('detail');
+ await load();
+ current=games.find(g=>g.id===id);
+ if(!current){view('home');notice('Partita non più disponibile.');return}
+ const master=current.master_id===user.id;
+ $('gameName').textContent=current.name;
+ $('gameCode').textContent=current.code;
+  $('qrPanel').classList.add('hide');$('qrImage').classList.add('hide');$('qrImage').removeAttribute('src');
+ $('role').textContent=master?'Master':'Giocatore';
+ $('status').textContent=current.my_status==='pending'?'Richiesta inviata: attendi l’approvazione del master.':master?'Gestisci ingressi e richieste dei partecipanti.':'Sei stato ammesso alla partita.';
+ $('masterControls').classList.toggle('hide',!master);$('toggleJoins').textContent=current.joins_open?'Blocca nuovi ingressi':'Riapri ingressi';$('joinState').textContent=current.joins_open?'Ingressi aperti':'Ingressi bloccati';
+ $('playerControls').classList.toggle('hide',master);
+ $('chatSection').classList.toggle('hide',current.my_status!=='approved');
+ $('newChat').classList.toggle('hide',!master);
+ if(current.my_status==='approved') await refreshChats();
+ $('waiting').textContent=current.my_status==='pending'?'Sei in attesa dell’approvazione del master.':'Il master sta preparando le conversazioni. Le chat compariranno qui quando il master ti aggiungerà.';
+ if(master){await pending();await refreshRoster();}
+ poll=setInterval(async()=>{
+  try{
+   if(master){await pending();await refreshRoster();await refreshChats();return}
+   await load();
+   const g=games.find(x=>x.id===id);
+   if(!g){view('home');notice('Richiesta non più attiva.');return}
+   if(g.my_status==='approved'&&current.my_status==='pending')await open(id);else if(g.my_status==='approved')await refreshChats();
+  }catch(e){err(e)}
+ },5000);
+}
+async function refreshRoster(){
+ if(!current||!isMaster())return;
+ const rows=await rpc('game_roster_overview',{p_game:current.id});
+ const approved=rows.filter(r=>r.member_status==='approved');
+ const pendingRows=rows.filter(r=>r.member_status==='pending');
+ $('rosterSummary').textContent=approved.length+' ammessi · '+pendingRows.length+' in attesa';
+ const list=$('rosterList');list.replaceChildren();
+ if(!rows.length){list.textContent='Nessun partecipante.';return}
+ for(const r of rows){
+  const d=document.createElement('div');d.className='item row';
+  const name=document.createElement('strong');name.textContent=r.nickname;
+  const status=document.createElement('span');status.className='pill';status.textContent=r.member_status==='approved'?'Ammesso':'In attesa';
+  d.append(name,status);
+   if(r.member_status==='approved'){
+    const kick=document.createElement('button');
+    kick.className='btn danger smallBtn';kick.textContent='Espelli';
+    kick.setAttribute('aria-label','Espelli '+r.nickname);
+    kick.onclick=async()=>{
+     if(!confirm('Espellere '+r.nickname+' dalla partita? Perderà l’accesso a tutte le chat.'))return;
+     kick.disabled=true;
+     try{
+      await rpc('game_expel_member',{p_game:current.id,p_user:r.user_id});
+      await refreshRoster();await refreshChats();
+      notice(r.nickname+' è stato espulso dalla partita.',true);
+     }catch(e){err(e);kick.disabled=false}
+    };
+    d.append(kick);
+    const recover=document.createElement('button');
+    recover.className='btn out smallBtn';recover.textContent='Recupera';
+    recover.setAttribute('aria-label','Recupera accesso di '+r.nickname);
+    recover.onclick=async()=>{
+      try{
+        const pendingRequests=await rpc('get_pending',{p_game:current.id});
+        const available=pendingRequests.filter(x=>x.user_id!==r.user_id);
+        if(!available.length){notice('Nessuna nuova richiesta in attesa. Il giocatore deve prima richiedere ingresso dal nuovo browser.');return}
+        const choice=prompt('Nuove richieste in attesa:\n'+available.map((x,i)=>(i+1)+'. '+x.nickname).join('\n')+'\n\nInserisci il numero del NUOVO account di '+r.nickname+':');
+        if(choice===null)return;
+        const n=Number(choice.trim());
+        if(!Number.isInteger(n)||n<1||n>available.length)throw Error('Numero non valido');
+        const target=available[n-1];
+        if(!confirm('Hai verificato che «'+target.nickname+'» sia davvero '+r.nickname+'?\n\nIl vecchio account sarà bloccato e il nuovo erediterà le sue chat e il nickname. Questa operazione non si annulla automaticamente.'))return;
+        recover.disabled=true;
+        await rpc('game_recover_member',{p_game:current.id,p_old_user:r.user_id,p_new_user:target.user_id});
+        await pending();await refreshRoster();await refreshChats();
+        notice('Accesso recuperato per '+r.nickname+'. Il vecchio account è stato revocato.',true);
+      }catch(e){err(e)}finally{recover.disabled=false}
+    };
+    d.append(recover);
+
+   }
+   list.append(d);
+ }
+}
+async function pending(){if(!current)return;const rows=await rpc('get_pending',{p_game:current.id});const el=$('pending');el.replaceChildren();if(!rows.length){el.textContent='Nessuna richiesta in attesa.';return}for(const r of rows){const d=document.createElement('div');d.className='item row';const name=document.createElement('strong');name.textContent=r.nickname;const controls=document.createElement('div');controls.className='row';for(const [label,accept] of [['Accetta',true],['Rifiuta',false]]){const b=document.createElement('button');b.className='btn '+(accept?'':'out');b.textContent=label;b.onclick=async()=>{try{b.disabled=true;await rpc('review_join',{p_game:current.id,p_user:r.user_id,p_approve:accept});await pending();notice(accept?'Giocatore approvato':'Richiesta rifiutata',true)}catch(e){err(e)}finally{b.disabled=false}};controls.append(b)}d.append(name,controls);el.append(d)}}
+const PROJECT_URL='https://jglkyeasudxomtgzjstp.supabase.co';
+const PUBLISHABLE_KEY='sb_publishable_qG0i6wi6QwE7UJ6op9pTnA_uS38tX-r';
+async function start(){
+ try{
+  sb=createClient(PROJECT_URL,PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+  let {data:{session},error}=await sb.auth.getSession();if(error)throw error;
+  if(!session){const res=await sb.auth.signInAnonymously();if(res.error)throw res.error;session=res.data.session}
+  user=session.user;view('home');await load();
+  const hash=new URLSearchParams(location.hash.slice(1));if(hash.get('join')){$('joinForm').elements.code.value=hash.get('join');view('join')}
+ }catch(e){view('home');err(e)}
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>view(b.dataset.view));$('connect').onclick=()=>{try{const url=$('url').value.trim(),key=$('key').value.trim();if(!/^https:\/\/[^/]+\.supabase\.co\/?$/.test(url)||!key)throw Error('Inserisci URL Supabase e chiave pubblica validi.');localStorage.setItem('lupus_url',url.replace(/\/$/,''));localStorage.setItem('lupus_key',key);start()}catch(e){err(e)}};
+$('createForm').onsubmit=async e=>{e.preventDefault();try{const f=e.target;const result=await rpc('create_game',{p_name:f.elements.name.value,p_nickname:f.elements.nick.value});f.reset();await open(result[0].game_id);notice('Partita creata!',true)}catch(e){err(e)}};
+$('joinForm').onsubmit=async e=>{e.preventDefault();try{const f=e.target;await rpc('request_join',{p_code:f.elements.code.value,p_nickname:f.elements.nick.value});f.reset();view('home');await load();notice('Richiesta inviata. Attendi il master.',true)}catch(e){err(e)}};
+function inviteUrl(){
+ const url=new URL(location.pathname,location.origin);
+ url.hash=new URLSearchParams({join:current.code}).toString();
+ return url.href;
+}
+$('copyInvite').onclick=async()=>{try{await navigator.clipboard.writeText(inviteUrl());notice('Link invito copiato!',true)}catch(e){err(e)}};
+$('shareInvite').onclick=async()=>{
+ try{
+  const url=inviteUrl();
+  if(navigator.share){try{await navigator.share({title:'Invito a Lupus Chat',text:'Unisciti alla partita '+current.name+'. Il master approverà la richiesta.',url});return}catch(e){if(e.name==='AbortError')return}}
+  await navigator.clipboard.writeText(url);notice('Link invito copiato!',true);
+ }catch(e){err(e)}
+};
+$('showQr').onclick=async()=>{
+ const panel=$('qrPanel');
+ if(!panel.classList.contains('hide')){panel.classList.add('hide');return}
+ panel.classList.remove('hide');$('qrImage').classList.add('hide');$('qrLoading').textContent='Generazione QR in corso…';
+ try{
+  // Generazione sul dispositivo: il codice invito non viene inviato a servizi QR esterni.
+  const QR=await import('https://esm.sh/qrcode@1.5.4');
+  const data=await QR.toDataURL(inviteUrl(),{width:440,margin:2,errorCorrectionLevel:'M',color:{dark:'#211623',light:'#ffffff'}});
+  $('qrImage').src=data;$('qrImage').classList.remove('hide');$('qrLoading').textContent='';
+ }catch(e){$('qrLoading').textContent='QR non disponibile. Puoi comunque condividere il link.';err(e)}
+};
+$('refresh').onclick=()=>load().catch(err);$('reloadPending').onclick=()=>pending().catch(err);$('toggleJoins').onclick=async()=>{try{await rpc('set_joins_open',{p_game:current.id,p_open:!current.joins_open});await open(current.id)}catch(e){err(e)}};$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(current.code);notice('Codice copiato',true)}catch(e){err(e)}};$('leave').onclick=async()=>{if(!confirm('Abbandonare questa partita?'))return;try{await rpc('leave_game',{p_game:current.id});view('home');await load()}catch(e){err(e)}};$('delete').onclick=async()=>{if(!confirm('Eliminare definitivamente la partita e tutte le richieste?'))return;try{await rpc('delete_game',{p_game:current.id});view('home');await load()}catch(e){err(e)}};
+// MODULO 3: chat private. Solo RPC, nessuna lettura diretta delle tabelle.
+function isMaster(){return current?.master_id===user.id}
+async function refreshChats(){
+ if(!current||current.my_status!=='approved')return;
+ const rows=await rpc('chat_list',{p_game:current.id});chatRows=rows;
+  const unread=await rpc('chat_unread_counts',{p_game:current.id});const counts=new Map(unread.map(x=>[x.chat_id,Number(x.unread_count)]));
+ const el=$('chatList');el.replaceChildren();
+ if(!rows.length){el.textContent=isMaster()?'Nessuna chat. Creane una.':'Il master non ti ha ancora aggiunto a una chat.';return}
+ for(const c of rows){const b=document.createElement('button');b.className='btn alt chatTile';b.textContent=c.name+' · '+c.participants+' partecipanti';const n=counts.get(c.id)||0;if(n){const badge=document.createElement('span');badge.className='unreadBadge';badge.textContent=n>99?'99+':String(n);badge.setAttribute('aria-label',n+' messaggi non letti');b.append(badge)}b.onclick=()=>showChat(c);el.append(b)}
+}
+$('newChat').onclick=async()=>{
+ if(!isMaster())return;
+ try{
+  const roster=await rpc('chat_roster',{p_game:current.id});
+  const name=prompt('Nome della nuova chat:');if(name===null)return;
+  const available=roster.filter(r=>r.user_id!==user.id);
+  const selection=prompt('Partecipanti disponibili:\n'+available.map((r,i)=>(i+1)+'. '+r.nickname).join('\n')+'\n\nScrivi i numeri separati da virgola (es. 1,3). Lascia vuoto per nessuno:');
+  if(selection===null)return;
+  const indexes=selection.trim()?selection.split(',').map(x=>Number(x.trim())-1):[];
+  if(indexes.some(i=>!Number.isInteger(i)||i<0||i>=available.length))throw Error('Selezione partecipanti non valida');
+  await rpc('chat_create',{p_game:current.id,p_name:name,p_users:[...new Set(indexes)].map(i=>available[i].user_id)});
+  await refreshChats();notice('Chat creata',true);
+ }catch(e){err(e)}
+};
+async function showChat(c){
+ activeChat=c;chatLast=0;replyTo=null;seenMessages=new Map();view('chatView');$('chatTitle').textContent=c.name;
+ $('manageChat').classList.toggle('hide',!isMaster());$('replyBox').classList.add('hide');$('messages').replaceChildren();
+ await refreshMembers();await refreshMessages();await markChatRead();
+ poll=setInterval(async()=>{
+  if(!activeChat||activeChat.id!==c.id)return;
+  try{
+   // La RPC controlla i permessi sul server anche se la chat resta aperta.
+   await rpc('chat_members',{p_chat:c.id});
+   if(!activeChat||activeChat.id!==c.id)return;
+   await refreshMessages();
+  }catch(e){
+   if(!activeChat||activeChat.id!==c.id)return;
+   // La revoca o eliminazione comporta l'uscita automatica dalla chat.
+   const id=current.id;
+   activeChat=null;replyTo=null;seenMessages.clear();
+   view('detail');
+   try{await open(id)}catch(loadError){err(loadError)}
+   notice('Questa chat non è più accessibile. La lista è stata aggiornata.');
+  }
+ },3000);
+}
+async function markChatRead(){if(!activeChat)return;await rpc('chat_mark_read',{p_chat:activeChat.id})}
+ async function refreshMembers(){
+ const members=await rpc('chat_members',{p_chat:activeChat.id});
+ $('chatMemberNames').textContent='Partecipanti: '+(members.map(x=>x.nickname).join(', ')||'nessuno')+' · Il master ha sempre accesso';
+}
+function previewText(body){const t=String(body||'').replace(/\s+/g,' ').trim();return t.length>110?t.slice(0,107)+'…':t}
+async function refreshMessages(){
+ if(!activeChat)return;
+ const rows=await rpc('chat_history',{p_chat:activeChat.id,p_after:chatLast});
+ if(!rows.length)return;
+ const el=$('messages');const atBottom=el.scrollHeight-el.scrollTop-el.clientHeight<80;
+ // Le anteprime sono recuperate dal server solo se il giocatore può leggere l'originale.
+ const missing=[...new Set(rows.map(m=>m.reply_to).filter(id=>id!=null&&!seenMessages.has(String(id))))];
+ let previews=new Map();
+ if(missing.length){
+  const found=await rpc('chat_reply_previews',{p_chat:activeChat.id,p_ids:missing});
+  previews=new Map(found.map(m=>[String(m.id),m]));
+ }
+ for(const m of rows){
+  const d=document.createElement('div');d.className='bubble'+(m.author_id===user.id?' mine':'');
+  const meta=document.createElement('div');meta.className='meta';meta.textContent=m.author_name+' · '+new Date(m.created_at).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});d.append(meta);
+  if(m.reply_to){const r=document.createElement('div');r.className='reply';const original=seenMessages.get(String(m.reply_to))||previews.get(String(m.reply_to));r.textContent=original?'↩ '+original.author_name+': '+previewText(original.body):'↩ Messaggio non disponibile';d.append(r)}
+  const content=document.createElement('div');content.textContent=m.body;d.append(content);
+  const reply=document.createElement('button');reply.type='button';reply.textContent='↩ Rispondi';reply.onclick=()=>{replyTo=m.id;$('replyBox').textContent='↩ '+m.author_name+': '+previewText(m.body)+' · ';const cancel=document.createElement('button');cancel.className='btn out smallBtn';cancel.textContent='Annulla';cancel.onclick=()=>{replyTo=null;$('replyBox').classList.add('hide')};$('replyBox').append(cancel);$('replyBox').classList.remove('hide');$('messageText').focus()};d.append(reply);el.append(d);
+  seenMessages.set(String(m.id),m);chatLast=Math.max(chatLast,Number(m.id));
+ }
+ if(atBottom)el.scrollTop=el.scrollHeight;
+}
+$('messageForm').onsubmit=async e=>{
+ e.preventDefault();const b=$('messageForm').querySelector('button');b.disabled=true;
+ try{await rpc('chat_send',{p_chat:activeChat.id,p_body:$('messageText').value,p_reply:replyTo});$('messageText').value='';replyTo=null;$('replyBox').classList.add('hide');await refreshMessages();await markChatRead();$('messages').scrollTop=$('messages').scrollHeight}
+ catch(e){err(e)}finally{b.disabled=false}
+};
+$('backToGame').onclick=()=>{const id=current.id;activeChat=null;open(id).catch(err)};
+$('manageChat').onclick=async()=>{
+ if(!isMaster()||!activeChat)return;
+ const action=prompt('Gestione chat: scrivi 1 per rinominare, 2 per aggiungere/rimuovere partecipanti, 3 per eliminare la chat.');
+ try{
+  if(action==='1'){
+   const name=prompt('Nuovo nome:',activeChat.name);if(name===null)return;
+   await rpc('chat_rename',{p_chat:activeChat.id,p_name:name});activeChat.name=name;$('chatTitle').textContent=name;
+  }else if(action==='2'){
+   const [roster,members]=await Promise.all([rpc('chat_roster',{p_game:current.id}),rpc('chat_members',{p_chat:activeChat.id})]);
+   const memberIds=new Set(members.map(m=>m.user_id));const available=roster.filter(r=>r.user_id!==user.id);
+   const selection=prompt('Partecipanti (✓ = nella chat):\n'+available.map((r,i)=>(i+1)+'. '+(memberIds.has(r.user_id)?'✓ ':'')+r.nickname).join('\n')+'\n\nScrivi +numero per aggiungere, -numero per rimuovere (es. +2 o -1):');
+   if(!selection)return;
+   const match=selection.trim().match(/^([+-])(\d+)$/);if(!match)throw Error('Usa +numero o -numero');
+   const target=available[Number(match[2])-1];if(!target)throw Error('Numero non valido');
+   await rpc('chat_set_member',{p_chat:activeChat.id,p_user:target.user_id,p_add:match[1]==='+'});await refreshMembers();
+  }else if(action==='3'){
+   if(!confirm('Eliminare questa chat e tutti i suoi messaggi?'))return;
+   await rpc('chat_delete',{p_chat:activeChat.id});$('backToGame').click();return;
+  }else return;
+  notice('Chat aggiornata',true);
+ }catch(e){err(e)}
+};
+start();
+</script></body></html>
